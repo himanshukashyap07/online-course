@@ -1,7 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
 import ImageKit from 'imagekit';
-import { writeFile } from 'fs/promises';
-import path from 'path';
+import apiResponse from '@/utils/apirespone';
+import apiError from '@/utils/apiError';
 
 const imagekit = new ImageKit({
   publicKey: process.env.IMAGEKIT_PUBLIC_KEY!,
@@ -9,22 +8,23 @@ const imagekit = new ImageKit({
   urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT!,
 });
 
-export async function POST(req:any) {
+export async function POST(req: Request) {
   const formData = await req.formData();
-  const file = formData.get('file');
+  const file = formData.get('file') as File;
+
+  if (!file) {
+    return apiError("no file provided",400)
+  }
 
   const buffer = Buffer.from(await file.arrayBuffer());
-  const tempPath = path.join('/tmp', file.name);
-  await writeFile(tempPath, buffer);
 
   try {
     const uploadResponse = await imagekit.upload({
       file: buffer,
       fileName: file.name,
     });
-
-    return NextResponse.json({ success: true, url: uploadResponse.url });
-  } catch (error:any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return apiResponse(uploadResponse.url,200)
+  } catch (error: any) {
+    return apiError("interl server error in sending message",500)
   }
 }
