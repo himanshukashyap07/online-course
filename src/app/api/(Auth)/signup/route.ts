@@ -2,7 +2,6 @@ import { sendVerificationMessage } from "@/helper/sendVerificaitonMessage";
 import User from "@/models/user";
 import apiError from "@/utils/apiError";
 import apiResponse from "@/utils/apirespone";
-import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 
 
