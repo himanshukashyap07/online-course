@@ -6,8 +6,8 @@ export interface IPayment extends Document{
     signature:string;
     amount:number;
     currency:string;
-    user:mongoose.Schema.Types.ObjectId;
-    course:mongoose.Schema.Types.ObjectId;
+    userId:mongoose.Schema.Types.ObjectId;
+    courseId:mongoose.Schema.Types.ObjectId;
     status:string
 }
 
@@ -34,11 +34,11 @@ const paymentSchema:Schema<IPayment> = new Schema({
         enum:["INR","USD"],
         default:"INR"
     },
-    user:{
+    userId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
     },
-    course:{
+    courseId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Course"
     },
@@ -52,6 +52,6 @@ const paymentSchema:Schema<IPayment> = new Schema({
 },{timestamps:true})
 
 
-const Paytment = mongoose.models.Payment as mongoose.Model<IPayment> || mongoose.model("Payment",paymentSchema)
+const Payment = mongoose.models.Payment as mongoose.Model<IPayment> || mongoose.model("Payment",paymentSchema)
 
-export default Paytment
+export default Payment
