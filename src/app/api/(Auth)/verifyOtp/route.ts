@@ -16,30 +16,33 @@ export async function PATCH(req:NextRequest){
             return apiError("unauthorized request")
         }
     
-        const user = await User.findOne({mobileNumber});
+        const mobile = Number(mobileNumber)
+        const user = await User.findOne({ mobileNumber: mobile });
         if (!user) {
-            return apiError("user is found",404)
+            return apiError("user not found",404)
         }
         const currentDate = new Date();
-        const validateDate = new Date(user?.verifyCodeExpiry)
-        if (currentDate > validateDate) {
-            return apiError("code is expire regrenrate password")
+        if (!user.verifyCodeExpiry) {
+            return apiError("no expiry found for verification code",400)
         }
-    
-        if (!(otp === user.verifycode)) {
+        const validateDate = new Date(user.verifyCodeExpiry)
+        if (isNaN(validateDate.getTime()) || currentDate > validateDate) {
+            return apiError("code is expired, re-generate please",400)
+        }
+
+        if (String(otp) !== String(user.verifycode)) {
             return apiError("otp is not correct",401)
         }
     
-        const verifiedUser = await User.findByIdAndUpdate({mobileNumber},{
-            $set:{
-                isVerified:true
-            }
-        })
+        const verifiedUser = await User.findOneAndUpdate({ mobileNumber: mobile }, {
+            $set: { isVerified: true }
+        }, { new: true })
         if (!verifiedUser) {
             return apiError("user verification faild")
         }
         return apiResponse("user verification successfully",200)
     } catch (error) {
+        console.error("verifyOtp error:", error)
         return apiError("internal server error in verifing user",500)
     }
 }

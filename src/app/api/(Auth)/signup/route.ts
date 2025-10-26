@@ -1,5 +1,6 @@
 import { sendVerificationMessage } from "@/helper/sendVerificaitonMessage";
 import User from "@/models/user";
+import dbConnect from "@/lib/dbConnect";
 import apiError from "@/utils/apiError";
 import apiResponse from "@/utils/apirespone";
 import { NextRequest, NextResponse } from "next/server";
@@ -15,6 +16,8 @@ export async function POST(req: NextRequest) {
         return apiError("email is not in correct formate")
     }
     try {
+        await dbConnect()
+
         const existingUser = await User.findOne({
             $or: [
                 { username },
@@ -74,6 +77,8 @@ export async function POST(req: NextRequest) {
         }
         return apiResponse("user registered successfully",200)
     } catch (error) {
+        console.log(error);
+        
         return apiError("interal server error occur in signup",500)
     }
 }

@@ -32,7 +32,7 @@ const page = () => {
         try {
             const res = await axios.patch("/api/verifyOtp", {
                 otp,
-                mobileNumber: 8700461551,
+                mobileNumber: 9891646430,
                 otpSecret
             })
             if (!res) {
@@ -40,6 +40,8 @@ const page = () => {
                 console.log(res);
 
             }
+            console.log(res);
+            
             alert("user verified successfully")
             router.replace("/")
         } catch (error) {
