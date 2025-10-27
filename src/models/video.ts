@@ -7,6 +7,7 @@ export interface IVideo extends Document{
 }
 
 const videoSchema:Schema<IVideo> = new Schema({
+    
     title:{
         type:String,
         trim:true,
