@@ -12,6 +12,8 @@ const courseSchema:Schema<ICourse> = new Schema({
     title:{
         type:String,
         tirm:true,
+        unique:true,
+        index:true,
         required:true
     },
     description:{
