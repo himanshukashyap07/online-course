@@ -3,13 +3,20 @@ import Payment from "@/models/payment";
 import User from "@/models/user";
 import apiError from "@/utils/apiError";
 import mongoose from "mongoose";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { authOption } from "../../(Auth)/auth/[...nextauth]/options";
+
 
 
 
 export async function PATCH(req:NextRequest){
     const {userId,courseId} = await req.json()
     await dbConnect()
+    const session = await getServerSession(authOption)
+    if (!session || !session.user) {
+        return apiError("user is not autharized")
+    }
     try {
         const payment = await Payment.findOne({
             userId:new mongoose.Types.ObjectId(userId),

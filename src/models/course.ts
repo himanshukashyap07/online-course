@@ -3,7 +3,7 @@ import mongoose,{Document,Schema} from "mongoose";
 export interface ICourse extends Document{
     title:string;
     description:string;
-    video:mongoose.Schema.Types.ObjectId;
+    videos:mongoose.Schema.Types.ObjectId;
     price:number;
     thumbnail:string;
 }
@@ -14,14 +14,15 @@ const courseSchema:Schema<ICourse> = new Schema({
         tirm:true,
         unique:true,
         index:true,
-        required:true
+        required:true,
+        lowercase:true
     },
     description:{
         type:String,
         tirm:true,
         required:true
     },
-    video:[
+    videos:[
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:"Video"
