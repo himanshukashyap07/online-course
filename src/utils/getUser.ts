@@ -1,7 +1,7 @@
 import { authOption } from "@/app/api/(Auth)/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
 
-export async function isAutharizedUser(){
+export async function isAuthorizedUser(){
     const session = await getServerSession(authOption)
     if (!session || !session.user) {
         return false

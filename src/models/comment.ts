@@ -8,6 +8,7 @@ export interface IComment extends Document{
     owner:mongoose.Schema.Types.ObjectId,
 }
 
+
 const commentSchema:Schema<IComment> = new Schema({
     content:{
         type:String,
