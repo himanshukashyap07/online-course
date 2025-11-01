@@ -2,8 +2,9 @@ import mongoose,{Schema ,Document} from "mongoose";
 
 export interface IVideo extends Document{
     title:string;
+    url:string;
     description:string;
-    course:mongoose.Schema.Types.ObjectId;
+    courseId:mongoose.Schema.Types.ObjectId;
 }
 
 const videoSchema:Schema<IVideo> = new Schema({
@@ -13,12 +14,18 @@ const videoSchema:Schema<IVideo> = new Schema({
         trim:true,
         required:[true,"title is required"]
     },
+
     description:{
         type:String,
         trim:true,
         required:[true,"title is required"]
     },
-    course:{
+    url:{
+        type:String,
+        required:true,
+        trim:true
+    },
+    courseId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Course"
     }

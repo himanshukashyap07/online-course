@@ -14,9 +14,10 @@ export async function DELETE(conext:{params:Promise<{courseTitle:string}>}){
        return apiError("courseTitle is required")
     }
     await dbConnect()
+    const chcekCourseTitle = courseTitle.toLowerCase()
     try {
         const courseDelete = await Course.findOneAndDelete({
-            title:courseTitle
+            title:chcekCourseTitle
         })
         if (!courseDelete) {
             return apiError("course is not deleted")

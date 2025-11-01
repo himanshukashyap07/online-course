@@ -19,9 +19,10 @@ export async function PATCH(req:NextRequest){
         return apiError("unautharized request| this routed is for admin")
     }
     await dbConnect()
+    const chcekCourseTitle = courseTitle.toLowerCase()
     try {
         const result = await Course.updateOne({
-            title:courseTitle
+            title:chcekCourseTitle
         },
         {
             $pull:{

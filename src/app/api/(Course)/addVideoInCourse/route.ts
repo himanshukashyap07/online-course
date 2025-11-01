@@ -19,11 +19,11 @@ export async function PATCH(req: NextRequest) {
     if (!(await isAdmin())) {
         return apiError("unautharized request| this route is for admin")
     }
-
+    const chcekCourseTitle = courseTitle.toLowerCase()
     try {
         await dbConnect()
         const CourseExist = await Course.findOne({
-            title: courseTitle
+            title: chcekCourseTitle
         })
         if (!CourseExist) {
             return apiError("course is not existed in the database")

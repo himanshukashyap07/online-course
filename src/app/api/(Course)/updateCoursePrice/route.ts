@@ -12,15 +12,16 @@ export async function PATCH(req: NextRequest) {
     if (!(await isAdmin())) {
         return apiError("unautharized request| this route is for admin")
     }
-    const { price, cousrseTitle } = await req.json();
+    const { price, courseTitle } = await req.json();
 
-    if (!price || !cousrseTitle) {
+    if (!price || !courseTitle) {
         return apiError("price and courseTitle are required")
     }
     await dbConnect()
+    const chcekCourseTitle = courseTitle.toLowerCase()
     try {
         const course = await Course.findOneAndUpdate({
-            title: cousrseTitle
+            title: chcekCourseTitle
         },
         {
             set: {

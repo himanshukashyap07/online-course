@@ -24,7 +24,7 @@ export async function POST(req:NextRequest){
         }
     
         const course = await Course.create({
-            title,
+            title:title.toLowerCase(),
             description,
             price,
             thumbnail
