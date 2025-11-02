@@ -5,6 +5,7 @@ export interface IPayment extends Document{
     orderId:string;
     signature:string;
     amount:number;
+    price:number;
     currency:string;
     userId:mongoose.Schema.Types.ObjectId;
     courseId:mongoose.Schema.Types.ObjectId;
@@ -22,9 +23,9 @@ const paymentSchema:Schema<IPayment> = new Schema({
     },
     signature:{
         type:String,
-        required:[true,"signature is required"]
+        trim:true,
     },
-    amount:{
+    price:{
         type:Number,
         required:true,
         default:0

@@ -23,10 +23,10 @@ export const  sendVerificationMessage =async(mobileNumber:string,username:string
 
         const otpResponse =  await client.messages
             .create({
-            from: 'whatsapp:+14155238886',
+            from: '+17659783563',
             contentSid: process.env.TWILIOACCOUNT_CONTENTSID!,
             contentVariables: ` {"1":"${username} your otp is ${verifycodeOtp}"} `,
-            to: `whatsapp:+91${mobileNumber}`
+            to: `+91${mobileNumber}`
             } as MessageOptions)
             .then((message: TwilioMessage) => console.log(message.sid))
             
