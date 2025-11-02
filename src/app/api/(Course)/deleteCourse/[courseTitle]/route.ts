@@ -3,9 +3,10 @@ import Course from "@/models/course";
 import apiError from "@/utils/apiError";
 import apiResponse from "@/utils/apirespone";
 import { isAdmin } from "@/utils/getAdmin";
+import { NextRequest } from "next/server";
 
 
-export async function DELETE(conext:{params:Promise<{courseTitle:string}>}){
+export async function DELETE(req:NextRequest,conext:{params:Promise<{courseTitle:string}>}){
     const {courseTitle } = await conext.params;
     if (!(await isAdmin())) {
         return apiError("This route is only for admin| unautharized request")

@@ -4,18 +4,21 @@ import Comment from "@/models/comment";
 import apiError from "@/utils/apiError";
 import apiResponse from "@/utils/apirespone";
 import { getServerSession } from "next-auth";
+import { NextRequest } from "next/server";
 
-
-export async function DELETE(contex:{params:Promise<{commentId:string}>}){
+export async function DELETE(
+    req: NextRequest,
+    context:{params:Promise<{commentId:string}>}
+) {
+    const { commentId } = await context.params;
     const session = await getServerSession(authOption);
     if (!session || !session.user) {
         return apiError("user is not authorized")
     }
-    const {commentId} = await contex.params;
 
     try {
         await dbConnect();
-        const comment = await Comment.findByIdAndDelete({commentId})
+        const comment = await Comment.findByIdAndDelete(commentId)
         if (!comment) {
             return apiError("comment is not deleted")
         }

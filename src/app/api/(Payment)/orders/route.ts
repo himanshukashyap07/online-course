@@ -14,7 +14,7 @@ const razorpay = new Razorpay({
 export async function POST(req:NextRequest){
     const session  = await getServerSession(authOption);
     if (!session || !session.user) {
-        return apiError("Unauthorized", 401);
+        return apiError("Unauthorized request", 401);
     }
     try {
         const {courseId, amount} = await req.json();

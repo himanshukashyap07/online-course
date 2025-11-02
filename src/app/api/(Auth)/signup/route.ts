@@ -59,23 +59,22 @@ export async function POST(req: NextRequest) {
                 verifyCodeExpiry: expiryDate,
                 isVerified: false,
             })
-            return apiResponse("user created successfully",200)
-            
+            //message otp varification
+            const messageResponse = await sendVerificationMessage(
+                mobileNumber,
+                username,
+                verifycodeOtp
+            )
+            const responseData = await messageResponse.json();
+            if (!responseData.success) {
+                return apiError(responseData.message,500)
+                
+            }
+            return apiResponse("user created successfully verifyUser",200)
         }
 
-        //message otp varification
-        const messageResponse = await sendVerificationMessage(
-            mobileNumber,
-            username,
-            verifycodeOtp
-        )
 
-        const responseData = await messageResponse.json();
-        if (!responseData.success) {
-            return apiError(responseData.message,500)
-            
-        }
-        return apiResponse("user registered successfully",200)
+        // return apiResponse("user registered successfully",200)
     } catch (error) {
         console.log(error);
         
